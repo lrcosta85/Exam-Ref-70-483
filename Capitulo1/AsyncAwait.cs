@@ -1,10 +1,26 @@
-﻿namespace Capitulo1
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Capitulo1
 {
     public static class AsyncAwait
     {
         static void Main(string[] args)
         {
-            //página 42
+            string result = DownloadContent().Result;
+            Console.WriteLine(result);
+
+            //página 45
+        }
+
+        public static async Task<string> DownloadContent()
+        {
+            using(HttpClient client = new HttpClient())
+            {
+                string result = await client.GetStringAsync("http://www.microsoft.com");
+                return result;
+            }
         }
     }
 }
