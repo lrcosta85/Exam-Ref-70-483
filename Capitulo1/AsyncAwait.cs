@@ -6,13 +6,11 @@ namespace Capitulo1
 {
     public static class AsyncAwait
     {
-        static void Main(string[] args)
-        {
-            string result = DownloadContent().Result;
-            Console.WriteLine(result);
-
-            //página 45
-        }
+        //static void Main(string[] args)
+        //{
+        //    string result = DownloadContent().Result;
+        //    Console.WriteLine(result);
+        //}
 
         public static async Task<string> DownloadContent()
         {
