@@ -9,8 +9,8 @@ namespace Capitulo1
 {
     public static class ConcurrentCollections
     {
-        static void Main(string[] args)
-        {
+        //static void Main(string[] args)
+        //{
             //BlockingCollection();
             //ConcurrentBag();
             //EnumerableConcurrentBag();
@@ -19,7 +19,7 @@ namespace Capitulo1
             //ConcurrentDictionary();
 
             //Página 55
-        }
+        //}
         #region BlockingCollection
         public static void BlockingCollection()
         {
