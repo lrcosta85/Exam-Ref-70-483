@@ -8,14 +8,15 @@ namespace ManageMultithreading
 {
     public static class SynchronizingResources
     {
-        static void Main(string[] args)
-        {
+        //static void Main(string[] args)
+        //{
             //UsingLockKeyword();
             //InterlockedClass();
             //UsingCancellationToken();
             //ThrowingOperationCanceledException();
-            AddingContinuationCanceledTasks();
-        }
+            //AddingContinuationCanceledTasks();
+            //SetTimeoutTask();
+        //}
         public static void UsingLockKeyword()
         {
             int n = 0;
@@ -125,6 +126,19 @@ namespace ManageMultithreading
                 t.Exception.Handle((e) => true);
                 Console.WriteLine("You have canceled the task");
             }, TaskContinuationOptions.OnlyOnCanceled);
+        }
+
+        public static void SetTimeoutTask()
+        {
+            Task longRunning = Task.Run(() => {
+                Thread.Sleep(10000);
+            });
+            int index = Task.WaitAny(new[] { longRunning }, 1000);
+
+            if(index == -1)
+            {
+                Console.WriteLine("Task timed out");
+            }
         }
     }
 }
