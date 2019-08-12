@@ -1,0 +1,184 @@
+OBJECTIVE 1.1: THOUGHT EXPERIMENT
+
+1. Explain how multithreading can help with your client application.
+Improve the responsiveness, when the UI thread process the response from the user and background threads execute other operations 
+
+2. What is the diference between CPU and I/O bound operations?
+A CPU-bound operation needs a thread to execute. In a client application, it can make sense to execute a CPU-bound operation on another thread to improve responsiveness. In a server application, you don’t want an extra thread for a CPU-bound operation. Asynchronous I/O operations don’t require a thread while executing. Using asynchronous I/O frees the current thread to do other work and improves scalability.
+
+3. Does using multithreading with the TPL offer the same advantages for your server application?
+Using multithreading in a server environment can help you distribute operations over multiple CPUs. This way, you can improve performance. Using the TPL to create another thread to execute a CPU-bound operation while the originating thread has to wait for it won’t help you with increasing performance. 
+
+OBJECTIVE 1.1: REVIEW
+
+1. You have a lot of items that need to be processed. For each item, you need to perform a complex calculation. Which technique should you use?
+A. You create a Task for each item and then wait until all tasks are finished.
+Incorrect: Manually creating and managing tasks is not necessary. The Parallel class takes care of this and uses the optimal configuration options.
+*B. You use Parallel. For to process all items concurrently.
+Correct: Parallel. For is ideal for executing parallel operations on a large set of items that have to do a lot of work.
+C. You use async/await to process all items concurrently.
+Incorrect: async/await does not process items concurrently. Instead it waits until the current task has finished and then continues executing the code.
+D. You add all items to a BlockingCollection and process them on a thread created by the Thread class.
+Incorrect: The BlockingCollection can be used to share data between multiple threads. Using one producer and one consumer thread, however, won’t improve scalability. The Parallel class is designed for this scenario and should be used.
+
+2. You are creating a complex query that doesn’t require any particular order and you want to run it in parallel. Which method should you use?
+*A. AsParallel
+Correct: AsParallel makes a sequential query parallel if the runtime thinks this will improve performance.
+B. AsSequential
+Incorrect: AsSequential is used to make a parallel query sequential again.
+C. AsOrdered
+AsOrdered is used to make sure that the results of a parallel query are returned in order.
+D. WithDegreeOfParallelism
+Incorrect: WithDegreeOfParallelism is used to specify how many threads the parallel query should use.
+
+3. You are working on an ASP.NET application that retrieves some data from another web server and then writes the response to the database. Should you use async/await?
+A. No, both operations depend on external factors. You need to wait before they are finished.
+Incorrect: Because you have to wait for external factors (the database and web response), you should use async/await to free your thread. That way your thread can do some other work while waiting for the external responses to come back.
+B. No, in a server application you don’t have to use async/await. It’s only for responsiveness on the client.
+Incorrect: Async/await can be used to improve responsiveness on the client but it can also be used in server scenarios. Especially when waiting for an I/O-bound operation, you can use asynchronous code to free the thread from waiting.
+*C. Yes, this will free your thread to serve other requests while waiting for the I/O to complete.
+Correct: The operating system waits for the I/O request to complete and then activates a thread that can process the response. In the meantime, the thread can do other work.
+D. Yes, this put your thread to sleep while waiting for I/O so that it doesn’t use any CPU.
+Incorrect: Async/await does not put your thread to sleep in an I/O-bound situation. Instead, your thread can process other work while the operating system monitors the status of the request. When the request finishes, a thread is used to process the response. With a CPU-bound operation, your thread waits for the operation to finish on another thread.
+
+==============================================================================================================================
+==============================================================================================================================
+OBJECTIVE 1.2: THOUGHT EXPERIMENT
+
+1. How can you orchestrate your locking code to avoid deadlocks?
+It’s important to make sure that all locking follows the same order when locking multiple objects. As soon as you start locking dependent objects in different orders, you start getting deadlocks.
+
+2. How can the Interlocked class help you?
+The Interlocked class can help you to execute small, atomic operations without the need for locking. When you use locking a lot for these kind of operations, you can replace them with the Interlocked statement.
+
+OBJECTIVE REVIEW
+
+1. You want to synchronize access by using a lock statement. On which member do you lock?
+A. this
+Incorrect: You should never lock on this. Another part of your code may already be using your object to execute a lock.
+B. string _lock = “mylock”
+Incorrect: You shouldn’t use a string for locking. With string-interning, one object can be used for multiple strings, so you would be locking on an object that is also in use in other locations.
+C. int _lock = 42;
+Incorrect: Locking on a value type will generate a compile error. The value type will be boxed each time you lock on it, resulting in a unique lock each time.
+*D. object _lock = new object();
+Correct: A private lock of type object is the best choice.
+
+2. You need to implement cancellation for a long running task. Which object do you pass to the task?
+A. CancellationTokenSource
+Incorrect: The CancellationTokenSource is used to generate a CancellationToken. The token should be passed to the task, and the CancellationTokenSource can then be used to request cancellation on the token.
+*B. CancellationToken
+Correct: A CancellationToken generated by a CancellationTokenSource should be passed to the task.
+C. Boolean isCancelled variable
+Incorrect: A Boolean variable can be used to cancel a task, but it’s not the preferred way. A CancellationToken offers more flexibility and should be used.
+D. Volatile
+Incorrect: The volatile keyword should be used to signal to the compiler that the order of reads and writes on a field is important and that the compiler shouldn’t change it.
+
+3. You are implementing a state machine in a multithreaded class. You need to check what the current state is and change it to the new one on each step. Which method do you use?
+A. Volatile.Write(ref currentState)
+Incorrect: Volatile.Write is used to signal to the compiler that writing the value to a field should happen at that exact location.
+*B. Interlocked.CompareExchange(ref currentState, ref newState, expectedState)
+Correct: CompareExchange will see whether the current state is correct and it will then change it to the new state in one atomic operation.
+C. Interlocked.Exchange(ref currentState, newState)
+Incorrect: Exchange only changes the value; it doesn’t check to see whether the current state is correct.
+D. Interlocked.Decrement(ref newState)
+Incorrect: Decrement is used to subtract one off the value in an atomic operation.
+
+======================================================================================================================
+======================================================================================================================
+OBJECTIVE 1.3: THOUGHT EXPERIMENT
+1. What is the disadvantage of using goto? How can you avoid using the goto statement?
+Using the goto statement makes your code much harder to read because the application flow jumps around. goto is mostly used in looping statements. You can then replace goto with while or do-while.
+2. Which statement can you use to improve the long if statements?
+The switch statement can be used to improve long if statements.
+3. What are the differences between the for and foreach statement? When should you use which?
+The for statement can be used to iterate over a collection by using an index. You can modify the collection while iterating. You need to use the index to retrieve each item. foreach is syntactic sugar over the iterator pattern. You don’t use an index; instead the compiler gives you a variable that points to each iteration item.
+
+OBJECTIVE REWIEW
+1. You need to iterate over a collection in which you know the number of items. You need to remove certain items from the collection. Which statement do you use?
+A. switch
+Incorrect: switch is used as a decision statement. You map a value to certain labels to execute specific code; it doesn’t iterate over collections.
+B. foreach
+Incorrect: Although the foreach statement can be used to iterate over a collection; it doesn’t allow changes to the collection while iterating.
+*C. for
+Correct: With for, you can iterate over the collection while modifying it. It’s your own job to make sure that the index stays correct.
+D. goto
+Incorrect: goto is a jump statement that should be avoided.
+
+2. You have a lot of checks in your application for null values. If a value is not null, you want to call a method on it. You want to simplify your code. Which technique do you use?
+A. for
+Incorrect: for is an iteration statement that can’t be used to check for null values.
+B. Conditional operator
+Incorrect: The conditional operator can be used to shorten if statements. It’s not useful to conditionally call a method.
+C. Null-coalescing operator
+Incorrect: The null-coalescing operator does check for null values but it’s used to provide a default value. It’s not useful when calling a method if the value is not null.
+*D. The short-circuiting behavior of the and operator
+Correct: Short-circuiting enables you to see whether a value is null and call a member on it in one and statement. If the left value is null, the right operand won’t be executed.
+
+3. You are processing some data from over the network. You use a HasNext and Read method to retrieve the data. You need to run some code on each item. What do you use?
+A. for
+Incorrect: A for statement is most useful when iterating over a collection in which you know the number of items beforehand.
+B. foreach
+Incorrect: foreach can be used only on types that implement IEnumerable. It can’t be easily used with your two custom methods.
+*C. while
+Correct: You can use while (o.HasNext) { var i = o.Read(); } to process the items. When o.HasNext returns false, you automatically end the loop.
+D. do-while
+Incorrect: Do-while will run the code at least once. If there are no items on the network, the code doesn’t have to run.
+
+===================================================================================================
+===================================================================================================
+OBJECTIVE 1.4: THOUGHT EXPERIMENT
+You are working on a desktop application that consists of multiple forms. Those forms show different views of the same data and they should update in real time. Your application is extensible, and third parties can add plug-ins that contain their own views of the data.
+
+1. Should you use delegates or events in this system?
+Events are a nice layer on top of delegates that make them easier and safer to use. In this case, you should use events to make sure that other users won’t be able to clear all subscriptions. It also makes sure that they can’t raise the event on their own. They can only listen to changes.
+
+2. How can this help you?
+The advantage of using an event system in an application like this is that you can achieve loose coupling. Your forms don’t have to know anything about each other. The class that monitors data changes and raises the event doesn’t have to know how many forms are listening and how they look. Third-party plug-ins can easily subscribe to the events at runtime to be able to respond to changes without tightly coupling to the existing system.
+
+OBJECTIVE REWIEW
+1. You have a private method in your class and you want to make invocation of the method possible by certain callers. What do you do?
+A. Make the method public.
+Incorrect: Making the method public gives access to all users of your class.
+B. Use an event so outside users can be notified when the method is executed.
+Incorrect: This doesn’t give users of your class the ability to execute the method.
+*C. Use a method that returns a delegate to authorized callers.
+Correct: The method can see whether the caller is authorized and then return a delegate to the private method that can be invoked at will.
+D. Declare the private method as a lambda.
+Incorrect: Changing the method to a lambda doesn’t change the fact that outside users can’t access the method.
+
+2. You have declared an event on your class, and you want outside users of your class to raise this event. What do you do?
+A. Make the event public.
+Incorrect: The compiler restricts the use of events outside of the class where it’s defined. They can only add and remove subscribers. Only the class itself can raise the event.
+*B. Add a public method to your class that raises the event.
+Correct: The public method can be called by outside users of your class. Internally it can raise the event.
+C. Use a public delegate instead of an event.
+Incorrect: Using a delegate does allow it to be invoked from outside the class. However, you lose the protection that an event gives you. A public delegate can be completely modified by outside users without any restrictions.
+D. Use a custom event accessor to give access to outside users.
+Incorrect: Canonical name (CNAME) records map an alias or nickname to the real or canonical name that might lie outside the current zone.
+
+3. You are using a multicast delegate with multiple subscribers. You want to make sure that all subscribers are notified, even if an exception is thrown. What do you do?
+*A. Manually raise the events by using GetInvocationList.
+Correct: You can handle each individual error and make sure that all subscribers are called.
+B. Wrap the raising of the event in a try/catch.
+Incorrect: Wrapping the raising of the event in one try/catch will still cause the invocation to stop at the first exception. Later subscribers won’t be notified.
+C. Nothing. This is the default behavior.
+Incorrect: By default, the invocation of subscribers stops when the first unhandled exception happens in one of the subscribers.
+D. Let subscribers return true or false instead of throwing an exception.
+Incorrect: Exceptions are the preferred way of dealing with errors. Returning a value from each event still requires you to invoke them manually one by one to check the return value. 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,13 +6,13 @@ namespace EventsAndCallbacks
 {
     public static class UsingLambdaExpressions
     {
-        static void Main(string[] args)
-        {
-            //UsingLambdaExpressionroCreateDelegate();
-            //CreateLambdaMultipleStatements();
-            ActionDelegate();
-            //Página 85 - Using Events
-        }
+        //static void Main(string[] args)
+        //{
+        //    //UsingLambdaExpressionroCreateDelegate();
+        //    //CreateLambdaMultipleStatements();
+        //    ActionDelegate();
+        //    //Página 85 - Using Events
+        //}
 
         #region Lambda expression to create a delegate
         public delegate int Calculate(int x, int y);

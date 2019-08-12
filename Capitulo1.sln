@@ -9,7 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManageMultithreading", "Man
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImplementProgramFlow", "ImplementProgramFlow\ImplementProgramFlow.csproj", "{1687C52C-23E0-4331-A0B4-DD460A87DC66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsAndCallbacks", "EventsAndCallbacks\EventsAndCallbacks.csproj", "{9ECD6E11-CC09-49EA-BF46-09067CE37135}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsAndCallbacks", "EventsAndCallbacks\EventsAndCallbacks.csproj", "{9ECD6E11-CC09-49EA-BF46-09067CE37135}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplementExceptionHandling", "ImplementExceptionHandling\ImplementExceptionHandling.csproj", "{7A66C3C8-9C1B-4E7B-AB72-CBEC9C379877}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exercicios", "Exercicios", "{443AA86B-1C14-487B-8DDB-B43B0ED768D5}"
+	ProjectSection(SolutionItems) = preProject
+		Capitulo1.txt = Capitulo1.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +40,10 @@ Global
 		{9ECD6E11-CC09-49EA-BF46-09067CE37135}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ECD6E11-CC09-49EA-BF46-09067CE37135}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ECD6E11-CC09-49EA-BF46-09067CE37135}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A66C3C8-9C1B-4E7B-AB72-CBEC9C379877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A66C3C8-9C1B-4E7B-AB72-CBEC9C379877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A66C3C8-9C1B-4E7B-AB72-CBEC9C379877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A66C3C8-9C1B-4E7B-AB72-CBEC9C379877}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
