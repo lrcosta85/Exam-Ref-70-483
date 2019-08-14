@@ -4,12 +4,12 @@ namespace ImplementExceptionHandling
 {
     public static class HandlingExceptions
     {
-        static void Main(string[] args)
-        {
-            //UsingEnviromentFailFast();
-            InspectingAnException();
-            //Página 99
-        }
+        //static void Main(string[] args)
+        //{
+        //    //UsingEnviromentFailFast();
+        //    InspectingAnException();
+        //    //Página 99
+        //}
 
         public static void UsingEnviromentFailFast()
         {

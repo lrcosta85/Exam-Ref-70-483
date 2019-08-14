@@ -165,10 +165,50 @@ C. Nothing. This is the default behavior.
 Incorrect: By default, the invocation of subscribers stops when the first unhandled exception happens in one of the subscribers.
 D. Let subscribers return true or false instead of throwing an exception.
 Incorrect: Exceptions are the preferred way of dealing with errors. Returning a value from each event still requires you to invoke them manually one by one to check the return value. 
+
+=======================================================================================================================
+=======================================================================================================================
+OBJECTIVE 1.5: THOUGHT EXPERIMENT
  
+You are designing a new application and you want to implement a proper errorhandling strategy. You are discussing the topic with some colleagues, and one of them says that you should use regular error codes to signal errors because that’s faster and your company has used it in the past.
+You are also having a discussion about when to create a custom exception and when to use the built-in .NET Framework exceptions.
+1. Explain to your colleague the advantages of Exceptions compared to error codes.
+Exceptions are objects, so they can store extra information that can’t be done with only an error code. The .NET Framework also offers special support for dealing with exceptions. For example, you can use catch blocks to handle certain types of exceptions and you can use a finally block to make sure that certain code will always run.
 
+2. When should you create a custom exception?
+You should create a custom exception only if you expect developers to handle it or perform custom logging. If a developer won’t be able to fix the specific error, it won’t make any sense to create a more specific exception. Custom logging can happen when you throw more detailed exceptions, so developers can differentiate between the errors that happen.
 
+OBJECTIVE REWIEW
+1. You are checking the arguments of your method for illegal null values. If you encounter a null value, which exception do you throw?
+A. ArgumentException.
+Incorrect: Although the exception has to do with an argument to your method, you should throw the more specialized ArgumentNullException.
+B. InvalidOperationException.
+Incorrect: InvalidOperationException should be used when your class is not in the correct state to handle a request.
+C. NullReferenceException.
+Incorrect: NullReferenceException is thrown by the runtime when you try to reference a null value.
+*D. ArgumentNullException.
+Correct: ArgumentNullException is the most specialized exception that you can use to tell which argument was null and what you expect.
 
+2. Your code catches an IOException when a file cannot be accessed. You want to give more information to the caller of your code. What do you do?
+A. Change the message of the exception and rethrow the exception.
+Incorrect: The Message property of an exception is read-only. You can’t change it after the exception is created.
+*B. Throw a new exception with extra information that has the IOException as InnerException.
+Correct: The new exception can contain extra info. Setting the InnerException makes sure that the original exception stays available.
+C. Throw a new exception with more detailed info.
+Incorrect: Throwing a brand-new exception loses the original exception and the information that it had.
+D. Use throw to rethrow the exception and save the call stack.
+Incorrect: Using throw without an identifier will rethrow the original exception while maintaining the stack trace, but it won’t add any extra information.
+
+3. You are creating a custom exception called LogonFailedException. Which constructors should you at least add? (Choose all that apply.)
+*A. LogonFailed()
+Correct: You should always add a default empty constructor.
+*B. LogonFailed(string message)
+Correct: A second constructor should take a descriptive message of why the error occurred.
+*C. LogonFailed(string message, Exception innerException)
+Correct: An InnerException can be set to correlate two exceptions and show what the original error was.
+D. LogonFailed(Exception innerException)
+Incorrect: You don’t have to define a constructor that only takes an InnerException without a message.
+ 
 
 
 
