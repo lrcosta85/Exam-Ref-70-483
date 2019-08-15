@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capitulo1", "Capitulo1\Capitulo1.csproj", "{FE98512E-E9E9-44F1-A4F9-9D095B7A78E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1-Capitulo1", "Capitulo1\1-Capitulo1.csproj", "{FE98512E-E9E9-44F1-A4F9-9D095B7A78E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManageMultithreading", "ManageMultithreading\ManageMultithreading.csproj", "{D37C1C53-A0F7-4378-AAF9-282EA216F122}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1-ManageMultithreading", "ManageMultithreading\1-ManageMultithreading.csproj", "{D37C1C53-A0F7-4378-AAF9-282EA216F122}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImplementProgramFlow", "ImplementProgramFlow\ImplementProgramFlow.csproj", "{1687C52C-23E0-4331-A0B4-DD460A87DC66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1-ImplementProgramFlow", "ImplementProgramFlow\1-ImplementProgramFlow.csproj", "{1687C52C-23E0-4331-A0B4-DD460A87DC66}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsAndCallbacks", "EventsAndCallbacks\EventsAndCallbacks.csproj", "{9ECD6E11-CC09-49EA-BF46-09067CE37135}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1-EventsAndCallbacks", "EventsAndCallbacks\1-EventsAndCallbacks.csproj", "{9ECD6E11-CC09-49EA-BF46-09067CE37135}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplementExceptionHandling", "ImplementExceptionHandling\ImplementExceptionHandling.csproj", "{7A66C3C8-9C1B-4E7B-AB72-CBEC9C379877}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1-ImplementExceptionHandling", "ImplementExceptionHandling\1-ImplementExceptionHandling.csproj", "{7A66C3C8-9C1B-4E7B-AB72-CBEC9C379877}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exercicios", "Exercicios", "{443AA86B-1C14-487B-8DDB-B43B0ED768D5}"
 	ProjectSection(SolutionItems) = preProject
