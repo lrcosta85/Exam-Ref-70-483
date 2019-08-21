@@ -16,13 +16,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exercicios", "Exercicios", "{443AA86B-1C14-487B-8DDB-B43B0ED768D5}"
 	ProjectSection(SolutionItems) = preProject
 		Capitulo1.txt = Capitulo1.txt
+		SOLID.txt = SOLID.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-CreateAndUseTypes", "2-CreateAndUseTypes", "{CB3DE61E-50C8-45F4-81B2-1F48748AAFA9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1-CreateTypes", "2.1-CreateTypes", "{4E77991B-84E7-4E4C-8779-033CBBBC9D68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateTypes", "CreateTypes\CreateTypes.csproj", "{A3B1012D-0B4E-42D3-9D83-4EFC709763E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreateTypes", "CreateTypes\CreateTypes.csproj", "{A3B1012D-0B4E-42D3-9D83-4EFC709763E3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-ManageProgramFlow", "1-ManageProgramFlow", "{D12DBA41-519F-44C2-88F0-8B2F730B9D32}"
 EndProject

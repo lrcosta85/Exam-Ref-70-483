@@ -208,17 +208,47 @@ Correct: A second constructor should take a descriptive message of why the error
 Correct: An InnerException can be set to correlate two exceptions and show what the original error was.
 D. LogonFailed(Exception innerException)
 Incorrect: You don’t have to define a constructor that only takes an InnerException without a message.
- 
 
+==================================================================================================================
+==================================================================================================================
+OBJECTIVE 2.1: THOUGHT EXPERIMENT
 
+You are tasked with creating the basic types for a new web shop. As a customer, you can search through the existing product database and compare different items by reviewing specifications and reviews from other users. The system should keep track of popular products and make recommendations to the customer. Of course, the customer can then select the products he wants and place an order. There are also some business rules that you need to be aware of. A new customer is not allowed to place an order that exceeds $500. An order should be at least $10 to qualify for free shipping. More business rules will be added, but are not clear at the moment. Answer the following questions for your manager:
+1. Which basic types are you going to use to build your web shop?
+Some of the types that you can use in building your web shop are: Order, OrderLine, Product, Customer, Review, SearchCriteria, BusinessRule.
+2. How can you make sure that your types contain both behavior and data?
+When designing the system, you should focus on the behavior and then make sure that you have the data to support it. For example, instead of publicly exposing the OrderLines that an order contains, you should expose a method AddProduct(product, amount) that creates an OrderLine internally and makes sure that the Order follows all business rules. 
+3. How can you improve the usability of your types?
+By making sure that you have the correct constructors, users of your types can easily see which data is required. By using enums (for example for the Order status and Customer status), you can improve readability of your code. By using a base class for your business rules you can make the system more extensible so that other business rules can be easily defined.
 
+OBJECTIVE REWIEW
 
+1. You are creating a new collection type and you want to make sure the elements in it can be easily accessed. What should you add to the type?
+A. Constructor
+Incorrect: A constructor is used to create an instance of a new type.
+B. Indexer property
+Correct: An indexer property enables the user of the type to easily access a type that represents an array-like collection.
+C. Generic type parameter
+Incorrect: Making the type generic enables you to store multiple different types inside your collection.
+D. Static property
+Incorrect: A static property cannot access the instance data of the collection. 
 
+2. You are creating a generic class that should work only with reference types. Which type constraint should you add?
+*A. where T : class
+Correct: Constraining your generic type parameter to class allows the class to be used only with a reference type.
+B. where T : struct
+Incorrect: This will constrain the class to be used with a value type, not a reference type.
+C. where T : new()
+Incorrect: This will constrain the class to be used with a type that has an empty default constructor. It can be both a value and a reference type.
+D. where T : IDisposable
+Incorrect: This constrains the class to be used with a type that implements the IDisposable interface.
 
-
-
-
-
-
-
-
+3. You pass a struct variable into a method as an argument. The method changes the variable; however, when the method returns, the variable has not changed. What happened?
+A. The variable was not initialized before it was passed in.
+Incorrect: Passing a noninitialized struct will result in a compile error of using an unassigned local variable.
+B. A value type cannot be changed inside a method.
+Incorrect: A struct can be changed inside a method. It won’t change the original struct that was passed in, however.
+*C. Passing a value type makes a copy of the data. The original wasn’t changed.
+Correct: Passing a struct will make a copy of the data. The copy can be changed; the original won’t change with it.
+D. The method didn’t return the changes.
+Incorrect: With a reference type, the method can make changes that will reflect on the original. Because a value type is copied, it won’t change the original. Returning the changes from the method will again create a new instance that will overwrite the original.
