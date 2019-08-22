@@ -306,3 +306,59 @@ Incorrect: Point is a struct that inherits from System.ValueType, which in turn 
 D. Make the collection of type dynamic.
 Incorrect: Making the collection dynamic will loosen compile-time checking. It won’t improve performance because the runtime has to do extra work.
  
+======================================================================================================================
+======================================================================================================================
+OBJECTIVE 2.3: THOUGHT EXPERIMENT
+
+You are working with a team to create a new application for keeping track of the inventory of a chemistry lab. Your application consists of lots of types that all 
+participate in making sure that items are not used by unqualified personnel, dangerous chemicals are not used in the same room, and items are ordered as soon as the
+stock is running low.
+Currently, all types in the system have different access modifiers. Some types are completely immutable; others expose all their data. You are discussing the current
+problems with a colleague. He argues that all types and all type members should be public.
+1. Explain to your colleagues why making all members public isn’t the solution.
+Making each and every type public will remove all the benefits that encapsulation offers. Encapsulating data means that the internal representation of an object is hidden
+from the outside world. This prevents users of your type from setting an invalid or inconsistent state, and also hides complexity. This makes your system more robust because 
+you can change implementation details while not changing the public interface of your type.
+
+2. Give an example of how a property can help with encapsulating data while still improving usability.
+Because a property offers a controlled way of accessing a field, you can run extra code both on reading and changing the value. You can, for example, make sure that only authorized 
+personnel can change specific values that determine who can use a specific chemical. 
+
+3. How can interfaces be used to improve the design?
+Because a type can implement multiple interfaces, you can use an interface to expose only a subset of the type members. By using explicit interface implementation, you can
+also hide certain members that should be visible under only certain circumstances. This way, you can enhance the public interface of a type by exposing fewer members at a
+given time.
+
+OBJECTIVE REVIEW
+
+1. What access modifier should you use to make sure that a method in a class can only be accessed inside the same assembly by derived types?
+A. Make the class public and its members public.
+Incorrect: A public class with public members can be accessed from other assemblies without any restrictions.
+B. Make the class public and its members protected.
+Incorrect: Types in other assemblies can derive from the class and access the protected methods.
+C. Make the class internal and its members internal.
+Incorrect: Types in other assemblies cannot derive from the class, but other types in the same assembly can access the method.
+*D. Make the class internal and its members protected.
+Correct: An internal class cannot be accessed outside of its assembly. The protected methods can be accessed only by derived types.
+
+2. You need to expose some data from a class. The data can be read by other types but can be changed only by derived types. What should you use?
+A. A protected field
+Incorrect: A protected field cannot be read by other types outside of the class.
+*B. A public property with a protected set modifier
+Correct: A public property can be read by all other types. The protected set modifier restricts changes to derived types.
+C. A protected property
+Incorrect: A protected property cannot be read by other types outside of the class.
+D. A protected property with a public get modifier
+Incorrect: This will generate a compile error because the accessibility modifier of the get accessor must be more restrictive than the property. Public is less restrictive than protected.
+
+3. You have a class that implements two interfaces that both have a method with the same name. Interface IA should be the default implementation. Interface IB should be used only in special situations. 
+How do you implement those interfaces?
+*A. Implement IA implicitly and IB explicitly.
+Correct: Implementing IA implicitly will make this the default implementation. When dealing with a reference to the class, this method will be invoked. Implementing IB explicitly will invoke the implementation 
+for IB when dealing with a reference to the IB interface.
+B. Implement both IA and IB explicitly.
+Incorrect: When both IA and IB are implemented explicitly, you need to cast a reference to the class to one or both interface types to invoke the method.
+C. Implement both IA and IB implicitly.
+Incorrect: Implementing both IA and IB implicitly won’t allow for a different implementation for IB.
+D. Implement IA explicitly and IB implicitly. 
+Incorrect: Implementing IB implicitly makes IB the default implementation instead of IA.
