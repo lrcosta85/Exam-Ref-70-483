@@ -252,3 +252,57 @@ Incorrect: A struct can be changed inside a method. It won’t change the original
 Correct: Passing a struct will make a copy of the data. The copy can be changed; the original won’t change with it.
 D. The method didn’t return the changes.
 Incorrect: With a reference type, the method can make changes that will reflect on the original. Because a value type is copied, it won’t change the original. Returning the changes from the method will again create a new instance that will overwrite the original.
+
+
+========================================================================================================================
+========================================================================================================================
+OBJECTIVE 2.2: THOUGHT EXPERIMENT
+
+You are developing a reusable library for doing complex calculations. Your application is gaining popularity, but you are starting to hear some negative responses. 
+Some say that your types cannot be used easily. When displaying the end results of calculations to the end user, there is a lot of manual work involved. 
+Others experience performance problems and want you to do something about it. You started developing your application with C# 1.0, and your application uses ArrayLists to keep track of all the 
+parameters needed for the calculations. Your parameters are implemented as a struct. 
+Your algorithms are implemented in a class hierarchy, and you often need to cast a base type to a derived type. Because this isn’t always possible, you have added a lot of try/catch 
+statements to recover from errors. Answer the following questions:
+1. How can a generic collection improve performance?
+ArrayLists are nongeneric; they can only work with items of type object. Because of this, you have to box and unbox your calculation parameters each time you use them. 
+Switching to a generic collection will avoid all the boxing and unboxing and will improve performance.
+2. Is there anything you can do to avoid the exceptions when converting between types?
+Throwing and catching exceptions is expensive. You can avoid the exceptions when converting items by first making sure that the conversion is allowed by using the is and as keywords. 
+You can use a simple Boolean check to see whether a conversion is allowed.
+3. How can you ensure your type is better converted to the basic CLR types?
+One thing you can do is make sure to implement implicit conversions to the CLR types that you want to support. You could also add a helper class that aids in converting items.
+
+OBJECTIVE REVIEW
+
+1. You are creating a custom Distance class. You want to ease the conversion from your Distance class to a double. What should you add?
+A. Nothing; this is already possible.
+Incorrect: A conversion between a custom class and a value type does not exist by default.
+*B. An implicit cast operator.
+Correct: Adding an implicit operator will enable users of your class to convert between Distance and double without any extra work.
+C. An explicit cast operator.
+Incorrect: Although adding an explicit cast operator will enable users of the class to convert from Distance to double, they will still need to explicitly cast it.
+D. A static Parse method.
+Incorrect: A Parse method is used when converting a string to a type. It doesn’t add conversions from your type to another type.
+
+2. You want to determine whether the value of an object reference is derived from a particular type. Which C# language feature can you use? (Choose all that apply.)
+*A. An as operator
+Correct: The as operator will return null if the conversion failed. If it succeeds, it will return the converted object. Seeing whether the result is null enables you to check for a valid conversion.
+B. An implicit cast
+Incorrect: Implicitly casting something of type object to another type is not possible. It would require an explicit cast.
+*C. An is operator
+Correct: The is keyword will see whether a type is derived from another type.
+D. A dynamic keyword
+Incorrect: The dynamic keyword can be used when you want weakly typing. It will still throw errors at runtime if an action is not possible.
+
+3. You are using an ArrayList as a collection for a list of Points, which are a custom struct. You are experiencing performance problems when working with a large amount of Points. 
+What do you have to do?
+*A. Use a generic collection instead of ArrayList.
+Correct: Using a generic collection will eliminate the need to box and unbox values. This will improve performance, especially when working with a large number of items.
+B. Change Point to be a reference type.
+Incorrect: Changing Point to be a reference type could increase memory usage. You will still have to convert from object to Point when using the nongeneric ArrayList.
+C. Add an implicit conversion from Point to object.
+Incorrect: Point is a struct that inherits from System.ValueType, which in turn inherits from System.Object. The implicit conversion is already present; adding it won’t improve performance.
+D. Make the collection of type dynamic.
+Incorrect: Making the collection dynamic will loosen compile-time checking. It won’t improve performance because the runtime has to do extra work.
+ 
