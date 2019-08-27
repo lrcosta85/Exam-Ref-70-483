@@ -362,3 +362,62 @@ C. Implement both IA and IB implicitly.
 Incorrect: Implementing both IA and IB implicitly won’t allow for a different implementation for IB.
 D. Implement IA explicitly and IB implicitly. 
 Incorrect: Implementing IB implicitly makes IB the default implementation instead of IA.
+
+=============================================================================================================================
+=============================================================================================================================
+
+You are working on a brand-new web application for a real estate agent. The agent wants to display his property on a website and ensure that users can easily search
+for it. For example, a user will be able to filter the results on location, size, property type, and price. You need to create the infrastructure that uses all the 
+selected criteria to filter the list of available houses.
+
+You want to see whether you can use some of the standard interfaces from the .NET Framework to implement your infrastructure.
+
+1. Why does the .NET Framework offer some interfaces without any implementation? Wouldn’t it be easier if the .NET Framework used abstract base classes?
+The problem is that C# doesn’t have multiple inheritance for classes, but you can have multiple interface inheritance. When types such as IDisposable 
+would be implemented as a base class, you would be able to inherit only from that class. Inheriting from other custom types would be impossible. 
+
+2. Would you use interface or class inheritance to create your search criteria?
+Implementing the search criteria can be best done through using class inheritance. By making an abstract class that accepts an input and then executes a specific filter over
+the items, you can reuse as much code as possible. The inherited criteria would need to specify only the filter expression (maybe through a lambda) and their exact parameters
+through the constructor.
+
+3. Which of the following interfaces would you use?
++IComparable
++IEnumerable
++IDisposable
++IUnknown
+IUnknown is not usable in this scenario; it’s only for dealing with unmanaged code. Implementing IDisposable should be used when you are dealing with unmanaged resources that you 
+want to free. In this case, that’s not necessary. IComparable could come in handy when you want to order your criteria (for example, one criterion should execute before any of the others). 
+IEnumerable can be used to implement the iterator pattern on your criteria. This could give you a performance benefit. Instead of processing all the houses at once, you can return an 
+iterator and filter the whole set one by one.
+
+1. You want to create a hierarchy of types because you have some implementation code you want to share between all types. You also have some method signatures you want
+to share. What should you use?
+A. An interface
+Incorrect: An interface won’t let you share any implementation code, only the public member signatures.
+B. A class with virtual methods
+Incorrect: A class requires you to have an implementation for every member. It doesn’t give you the option to only declare a member signature.
+*C. An abstract class
+Correct: An abstract class enables you to share both implemented methods and method signatures that a derived class needs to implement.
+D. A sealed class
+Incorrect: A sealed class can’t be inherited.
+
+2. You want to create a type that can be easily sorted. Which interface should you implement?
+A. IEnumerable
+Incorrect: IEnumerable should be implemented on collection-like types so they can be easily iterated over.
+*B. IComparable
+Correct: IComparable enables objects to be compared to each other. It returns an integer value that represents the relative position as smaller than 0, 0 or larger than 0.
+C. IDisposable
+Incorrect: IDisposable should be implemented on types that access unmanaged resources and that need to release them.
+D. IUnknown
+Incorrect: IUnknown is used only when working with the COM.
+
+3. You want to inherit from an existing class and add some behavior to a method. Which steps do you have to take? (Choose all that apply.)
+A. Use the abstract keyword on the base type.
+Incorrect: When you mark the base type as abstract, you can’t create an instance of it. You can’t use both the base and the derived type as concrete types in your code.
+*B. Use the virtual keyword on the base method.
+Correct: Marking the method in the base class as virtual enables it to be overridden by derived classes.
+C. Use the new keyword on the derived method.
+Incorrect: The new keyword hides the method in the base class. You shouldn’t use it when you want to extend the behavior from the base class.
+*D. Use the override keyword on the derived method. 
+Correct: The override keyword enables you to override a method marked as virtual in a base class.
