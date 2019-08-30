@@ -365,6 +365,8 @@ Incorrect: Implementing IB implicitly makes IB the default implementation instea
 
 =============================================================================================================================
 =============================================================================================================================
+OBJECTIVE 2.4: THOUGHT EXPERIMENT
+
 
 You are working on a brand-new web application for a real estate agent. The agent wants to display his property on a website and ensure that users can easily search
 for it. For example, a user will be able to filter the results on location, size, property type, and price. You need to create the infrastructure that uses all the 
@@ -421,3 +423,54 @@ C. Use the new keyword on the derived method.
 Incorrect: The new keyword hides the method in the base class. You shouldn’t use it when you want to extend the behavior from the base class.
 *D. Use the override keyword on the derived method. 
 Correct: The override keyword enables you to override a method marked as virtual in a base class.
+
+=========================================================================================================================================================================
+=========================================================================================================================================================================
+
+OBJECTIVE 2.5: THOUGHT EXPERIMENT
+
+You are creating your own optimized object-relational mapper. You allow the user to map types one-on-one to a table in the database. You also use special attributes
+for security reasons. For example, a type can be decorated with an AuthorizeAttribute to make sure that only specific users can access a certain table. You use a lot
+of reflection in your app and you start seeing some performance problems. You are also thinking about a generator that will create types that map exactly to an existing database.
+
+1. Why do you use an attribute instead of inheriting from an interface? Wouldn’t that be easier than adding a whole new concept to C#?
+Although interface inheritance describes an “is-a-kind-of” relation, but you can’t say that your type is “a kind of AuthorizedObject.” Instead, you use attributes to say 
+something about another type, which is why C# contains metadata. Inheritance should not be used to decorate a type with certain information.
+
+2. What can you do about the performance problems with using reflection?
+Reflection can be a really slow process. You can replace reflection with expression trees. When you are mapping data to a custom type, you can build an expression tree
+(and cache it!). The expression tree can be compiled to native code. Of course, you will still have the penalty of doing this extra step, but it will be much faster than reflection.
+
+3. Which technique would you use to create your generator?
+For generating code, you can use the CodeDOM. A CompilationUnit created by the CodeDOM can be outputted as a source file. 
+
+
+1. You want to read the value of a private field on a class. Which BindingFlags do you need? (Choose all that apply.)
+*A. Instance
+Correct: The field is a nonstatic instance field.
+B. DeclaredOnly
+Incorrect: DeclaredOnly is used when you don’t want to include inherited members.
+C. Static
+Incorrect: The field is not static; it’s a per-instance field.
+D. NonPublic
+Correct: Nonpublic is necessary because the field is private.
+
+2. You need to create an attribute that can be applied multiple times on a method or a parameter. Which syntax should you use?
+A. [AttributeUsage(AttributeTargets.GenericParameter | AttributeTargets.Method, AllowMultiple = true)]
+Incorrect: The AttributeTargets.GenericParameter can be applied to generic parameters. It’s not used for regular method arguments.
+*B. [AttributeUsage(AttributeTargets.Method | AttributeTargets.Parameter, AllowMultiple = true)]
+Correct: The Attribute targets both Methods and Parameters. It can also be applied multiple times.
+C. [AttributeUsage(AttributeTargets.All)]
+Incorrect: With AttributeTargets.All, the attribute can be applied to all types. It also can’t be applied multiple times.
+D. [AttributeUsage(AttributeTargets.Method | AttributeTargets.Parameter)]
+Incorrect: Because AllowMultiple is false by default, this attribute can’t be applied multiple times.
+
+3. You want to create a delegate that can filter a list of strings on a specific value. Which type should you use?
+A. Action<bool, IEnumerable<string>>.
+Incorrect: An Action doesn’t return a value. It also takes a Boolean input instead of the list of strings and the filter value.
+B. Func<IEnumerable<string>, IEnumerable<string>>.
+Incorrect: This delegate doesn’t have a parameter for the value to filter on.
+*C. Func<string, IEnumerable<string>, IEnumerable<string>>.
+Correct: It takes both the input list and the value to filter on and returns the filtered list.
+D. Func<IEnumerable<string>>.
+Incorrect: This returns only a list of strings. It doesn’t have an argument for the filter parameter or the original list.
