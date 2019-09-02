@@ -474,3 +474,71 @@ Incorrect: This delegate doesn’t have a parameter for the value to filter on.
 Correct: It takes both the input list and the value to filter on and returns the filtered list.
 D. Func<IEnumerable<string>>.
 Incorrect: This returns only a list of strings. It doesn’t have an argument for the filter parameter or the original list.
+
+
+================================================================================================================================================
+================================================================================================================================================
+
+OBJECTIVE 2.6: THOUGHT EXPERIMENT
+
+You have created your first Windows 8 app. It’s a nice game that enables users to take a video of themselves describing a word. Others have to guess; that way, they
+can earn points that enable them to create a longer video. One day you wake up and you suddenly realize that Microsoft chose your app as its app of the week. Your web server 
+that’s running all the logic of the game is trembling under the user load because of the sudden popularity. Both memory and CPU pressure are a lot higher than you expected. 
+You have some types that are qualified to be a value type but at the time of creating your app, you just used classes.
+
+1. How can using value types when possible improve your performance? Or could it be that your performance will deteriorate more?
+Reference types are on the heap and managed by the garbage collector. Value types are on the stack most of the time and are freed when the current method ends. When
+a value type is on the stack, it takes up less memory than it would on the heap. However, if a value type is enclosed in a reference type, it’s still on the heap. Changing the
+type to a struct is no guarantee that your memory pressure will drop.
+
+2. Why is implementing IDisposable important to reduce memory pressure? Is it always the best to call Dispose on an element as soon as you are done with it?
+IDisposable gives you a way to explicitly free up unmanaged resources and you won’t have to wait for the garbage collector to free memory. However, calling Dispose is something that takes up 
+CPU time. When leaving things to the garbage collector, the garbage collector will decide when is the best time to start calling finalizers. There is a compromise to make between explicitly or 
+implicitly freeing your resources
+
+3. Should you implement a finalizer on all your types that implement IDisposable?
+A class that implements IDisposable should have some unmanaged resources. A finalizer is important for making sure that an item always frees the unmanaged resources, even when Dispose is not called. 
+However, a class with a finalizer is threaded in a special way. The object is added to a finalization queue and is kept in memory until the finalizer has run. It’s important to make sure that when 
+Dispose is called, the object is explicitly removed from the finalization queue.
+
+4. You have some items that are used a lot. Would it be wise to put them in a static field so you don’t have to re-create them each time?
+A static field is a root reference; the garbage collector will never free an object that is referenced by a static field. In this case, it would be better to use a cache that keeps track of which 
+objects should be kept in memory. A caching algorithm that decides on how frequently an object is accessed can make sure that your objects are around. However, when there is a memory shortage, the 
+cache can turn some objects into WeakReferences and make sure they can be garbage collected.
+
+1. You are about to execute a piece of code that is performance-sensitive. You are afraid that a garbage collection will occur during the execution of this code. Which method should you call before executing your code?
+A. GC.RemoveMemoryPressure()
+Incorrect: RemoveMemoryPressure should be called only after calling AddMemoryPressure to inform the runtime that a managed object uses a large amount of unmanaged memory.
+B. GC. SuppressFinalize()
+Incorrect: SuppressFinalize should be called in the Dispose method of an object to inform the runtime that the object doesn’t need to be finalized any more.
+*C. GC.Collect()
+Correct: Collect will execute a garbage collection, freeing as much memory as possible at that time, which can be a very expensive process. This won’t prevent the garbage collector from executing during your 
+time-sensitive code, but it will make it less likely to happen.
+D. GC.WaitForPendingFinalizers()
+Incorrect: WaitForPendingFinalizers suspends the current thread so all finalizers that are on the finalization queue can run. This will free some memory (for all objects that are waiting for finalization). 
+Normally, however, you call this code after calling Collect if you want to make sure that all finalizers have run.
+
+2. An object that is implementing IDisposable is passed to your class as an argument. Should you wrap the element in a using statement?
+A. Yes, otherwise a memory leak could happen.
+Incorrect: A memory leak won’t happen because the finalizer of the class will eventually execute and dispose of the element. Disposing of the object in your method will cause an ObjectDisposedException 
+to be thrown in other code that uses the object.
+B. No, you should call Close on the object.
+Incorrect: The Close method is sometimes used as a secondary method that internally calls Dispose. It’s implemented on types such as File. The same reasoning applies as with answer A.
+C. No, you should use a try/finally statement and call Dispose yourself.
+Incorrect: A using statement is equivalent to a try/finally statement with a Dispose call. However, you don’t want to dispose of the item because the calling code could depend on the object being in a usable state.
+*D. No, the calling method should use a using statement.
+Correct: The calling code knows what the lifetime of the object should be and should decide when to dispose of the object.
+
+3. Your application is using a lot of memory. Which solution should you use?
+A. Turn all references into WeakReferences.
+Incorrect: A WeakReference is not an equivalent to an efficient caching strategy. Turning all items into WeakReferences will complicate your code (you have to see whether the memory is cleared). 
+It could potentially increase your memory usage because the WeakReference itself also takes up memory.
+B. Set all references to null when you are done with them.
+Incorrect: Setting references to null is optimized away by the compiler. Unlike some other languages, it doesn’t explicitly free any memory.
+*C. Use a caching algorithm to decide which objects can be freed.
+Correct: A caching strategy is the best solution. You can decide whether you want to free memory based on usage, a timestamp, or some other criteria.
+D. Use a background thread to call GC.Collect() on a scheduled interval. 
+Incorrect: Calling GC.Collect on a scheduled interval won’t improve your memory usage. Memory is freed only when there are no root references to an object. GC.Collect will stall your execution thread, 
+making things slower, while not freeing any more memory than waiting for a regular Collect to take place.
+
+ 
