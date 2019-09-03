@@ -541,4 +541,56 @@ D. Use a background thread to call GC.Collect() on a scheduled interval.
 Incorrect: Calling GC.Collect on a scheduled interval won’t improve your memory usage. Memory is freed only when there are no root references to an object. GC.Collect will stall your execution thread, 
 making things slower, while not freeing any more memory than waiting for a regular Collect to take place.
 
- 
+
+================================================================================================================================================
+================================================================================================================================================
+
+OBJECTIVE 2.7: THOUGHT EXPERIMENT
+
+You are working on a localized application to be used for time tracking. A team can use it to track time for various projects and tasks, and make sure that all billable time is correct. The application consists 
+of a web front end based on ASP.NET and a desktop application that uses C#. Suddenly, your manager announces that your application is going global. You currently support only the English language; you didn’t take 
+globalization into account when first architecting the application. Now you have to support Spanish and German.
+
+1. Make a list of the things you have to keep in mind when updating your application for globalization.
+This is not a trivial task to do. Building globalization into an existing application requires more effort than taking it into account from the start.
+The areas you will have to focus on are the display of text. Especially because this is a time tracking application there will be a lot of dates and times that are displayed.
+There are a few areas you will have to focus on:
+* Make sure that all string comparisons use an explicit overload that takes a StringComparison object.
+* Use StringComparison.Ordinal or StringComparison.OrdinalIgnoreCase when comparing strings in a culture-agnostic way.
+* Use StringComparison.CurrentCulture when displaying text to the user.
+* Make sure that all persisted text is persisted with the invariant culture.
+* Make sure that you are not using String.Compare or CompareTo for equality testing.
+* Implement IFormattable for custom types that are displayed to the user to make sure that all culture settings are respected.
+* Use the correct format strings when displaying numbers, dates, and times to the user. 
+
+OBJECTIVE REVIEW
+
+1. You want to display only the date portion of a DateTime according to the French culture. What method should you use?
+A. dt.ToString(new CultureInfo(“fr-FR”))
+Incorrect: Only specifying the culture will give you the full date and time.
+B. dt.ToString(“M”, new CultureInfo(“fr-FR”));
+Incorrect: Specifying “M” as the format string results in ”22 avril” without the year.
+C. dt.ToString(“d”);
+Incorrect: This will give the date in the correct format, but not with the French culture.
+*D. dt.ToString(“d”, new CultureInfo(“fr-FR”));
+Correct: This will give the date in the correct French format.
+
+2. You want your type to be able to be converted from string. Which interface should you implement?
+*A. IFormattable
+Correct: IFormattable provides the functionality to format the value of an object into a string representation. It is also used by the Convert class to do the opposite.
+B. IFormatProvider
+Incorrect: IFormatProvider is used to retrieve an object that controls formatting, not the actual formatting.
+C. IComparable
+Incorrect: IComparable is used to sort items.
+D. IConvertible
+Incorrect: IConvertible defines methods to convert a type to an equivalent CLR type.
+
+3. You are parsing a large piece of text to replace values based on some complex algorithm. Which class should you use?
+A. StringReader
+Incorrect: StringReader is an adapter of the StringBuilder class so that it can be used in places where a TextReader is required.
+*B. StringBuilder
+Correct: The StringBuilder class is most efficient when changing large amounts of strings.
+C. StringWriter
+Incorrect: The StringWriter is used in places where a TextWriter is required. It’s an adapter of the StringBuilder.
+D. String
+Incorrect: The regular String class is immutable, so it’s not efficient to use when changing large amounts of strings.
