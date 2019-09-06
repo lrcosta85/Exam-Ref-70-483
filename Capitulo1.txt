@@ -594,3 +594,46 @@ C. StringWriter
 Incorrect: The StringWriter is used in places where a TextWriter is required. It’s an adapter of the StringBuilder.
 D. String
 Incorrect: The regular String class is immutable, so it’s not efficient to use when changing large amounts of strings.
+
+
+==================================================================================================================================================
+==================================================================================================================================================
+
+OBJECTIVE 3.1: THOUGHT EXPERIMENT
+
+You have developed a complex web application and deployed it to production. The application is a new hybrid of wiki and a forum. Users can use it to brainstorm on ideas and write a document together.
+Suddenly users start contacting your support desk. They are all reporting ”that your application looks strange.” It suddenly contains extra URLs that link to external websites that are mixed with the original website’s layout.
+1. What could be the problem?
+It looks like malicious users are entering HTML in the text fields. This data gets submitted to the server and rendered the next time the page is viewed.
+
+2. How will you solve it?
+You need to use regular expressions to restrict the user input. By making clear which characters you allow, you can strip the input of the HTML characters and make sure they are not showing up in the page layout.
+
+
+OBJECTIVE REVIEW
+
+1. A user needs to enter a DateTime in a text field. You need to parse the value in code. Which method do you use?
+A. DateTime.Parse
+Incorrect: Parse will throw an exception when the user enters an invalid date, which is not uncommon.
+*B. DateTime.TryParse
+Correct: TryParse will see whether the entered value is a valid date. If not, it will return gracefully instead of throwing an exception.
+C. Convert.ToDateTime
+Incorrect: Convert.ToDateTime uses Parse internally. This will throw an exception when entered data is in the wrong format.
+D. Regex.Match.
+Incorrect: RegEx.Match can be used to see whether the input is a valid date. It can’t convert the input string to a DateTime object.
+
+2. You are working on a globalized web application. You need to parse a text field where the user enters an amount of money. Which method do you use?
+A. int.TryParse(value, NumberStyles.Currency, UICulture);
+Incorrect: Money should not be stored in an integer because it can’t store decimal numbers.
+*B. decimal.TryParse(value, NumberStyles.Currency, UICulture);
+Correct: You need to specify the NumberStyles.Currency and the culture that the user is using to parse the DateTime correctly.
+C. decimal.TryParse(value, ServerCulture);
+Incorrect: Using the server culture doesn’t account for the differences in user culture. You also need the NumberStyles.Currency parameter to make sure the user can enter a currency symbol.
+D. decimal.TryParse(value)
+Incorrect: Leaving off the culture defaults to the culture of the operating system. You also need the NumberStyles.Currency parameter to make sure the user can enter a currency symbol.
+
+3. You need to validate an XML file. What do you use?
+A. JavaScriptSerializer
+B. RegEx
+C. StringBuilder
+*D. XSD
