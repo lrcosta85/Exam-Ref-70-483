@@ -637,3 +637,54 @@ A. JavaScriptSerializer
 B. RegEx
 C. StringBuilder
 *D. XSD
+
+============================================================================================================
+============================================================================================================
+
+OBJECTIVE 3.2: THOUGHT EXPERIMENT
+
+You are working on an application that helps users track their time and shows them when they are most productive. The application runs on a server with a web, 
+desktop, and mobile front end being developed with the .NET Framework.
+You are assigned the task of determining which security features should be used in the application.
+Make a list of the possible technologies that can be used to secure the application.
+
+You can use numerous security features, including these:
+*Digital certificates to make sure the application can be safely installed on desktop machines.
+*Asymmetric encryption to send data to the server by using the public key to encrypt the data.
+*Asymmetric encryption to send data from the server to the client. The server encrypts with the private key; the client decrypts with the public key.
+*Code access permissions to make sure that your application can run in sandboxed environments.
+
+
+OBJECTIVE REVIEW
+1. Bob and Alice are using an asymmetric algorithm to exchange data. Which key should they send to the other party to make this possible?
+A. Bob sends Alice his private key, and Alice sends Bob her public key.
+Incorrect: The private key should always be kept confidential.
+B. Bob sends Alice his private key, and Alice sends Bob her private key.
+Incorrect: The private key should always be kept confidential.
+*C. Bob sends Alice his public key, and Alice sends Bob her public key.
+Correct: By sending each other their public key, they can then encrypt data with the other party’s public key to send them data.
+D. Bob sends Alice his public key, and Alice sends Bob her private key.
+Incorrect: The private key should always be kept confidential
+
+2. You need to encrypt a large amount of data. Which algorithm do you use?
+A. SHA256
+Incorrect: SHA256 is a hashing algorithm. It can’t be used to encrypt data.
+B. RSACryptoServiceProvider
+Incorrect: RSACryptoServiceProvider is an asymmetric encryption algorithm. Asymmetric algorithms are not suited for encrypting large amounts of data.
+C. MD5CryptoServiceProvider
+Incorrect: MD5CryptoServiceProvider is a hashing algorithm. It can’t be used to encrypt data.
+D. AesManaged
+Correct: AesManaged is a symmetric algorithm that can be used to encrypt large amounts of data.
+
+3. You need to send sensitive data to another party and you want to make sure that no one tampers with the data. Which method do you use?
+*A. X509Certificate2.SignHash
+Correct: Using the digital certificate X509 can be used to sign hashed data. If the other party uses the Verify method, it can check that the hash hasn’t changed.
+B. RSACryptoServiceProvider.Encrypt
+Incorrect: This method encrypts the data with an asymmetric algorithm. It doesn’t ensure that the data hasn’t been tampered with.
+*C. UnicodeEncoding.GetBytes
+Correct: UnicodeEncoding.GetBytes converts a string to a byte sequence. It doesn’t protect the data in any way.
+D. Marshal.ZeroFreeBSTR
+Incorrect: The Marshal class should be used when working with System.SecureString. The ZeroFreeBSTR method can be used to zero out an area of memory that contained an insecure string.
+
+
+*233
