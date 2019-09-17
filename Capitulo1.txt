@@ -687,4 +687,49 @@ D. Marshal.ZeroFreeBSTR
 Incorrect: The Marshal class should be used when working with System.SecureString. The ZeroFreeBSTR method can be used to zero out an area of memory that contained an insecure string.
 
 
-*233
+============================================================================================================
+============================================================================================================
+
+OBJECTIVE 3.3: THOUGHT EXPERIMENT
+
+You are discussing the reasons why you want to sign an assembly that you have built. The assembly will be distributed with a desktop application you are building. The assembly won’t be shared by other applications.
+1. Should you sign the assembly?
+Yes, you should sign the assembly.
+2. What are the advantages and disadvantages of signing? 
+Signing the assembly protects the assembly against tampering. The .NET Framework will check that the assembly hasn’t been altered between signing and running.
+Signing is also a requirement to be able to use a digital certificate so users of your application will know that you are the publisher of the application.
+A disadvantage could be that you can no longer reference other nonsigned assemblies. If you own these assemblies, you can sign them yourself. If not, you would have to ask their publisher to sign them.
+
+OBJECTIVE 3.3: REVIEW
+
+1. You are building a strong-named assembly and you want to reference a regular assembly to reuse some code you built. What do you have to do?
+A. You first need to put the assembly in the GAC.
+Incorrect: An assembly in the GAC needs to be strongly named. Your assembly still won’t be able to reference the nonsigned assembly.
+B. Nothing. Referencing another assembly to use some code is always possible.
+Incorrect: A strong-named assembly cannot reference a non-strong-named assembly.
+*C. You need to sign the other assembly before using it.
+Correct: You need to strongly name the other assembly before you can reference it.
+D. You need to use the public key token of the other assembly to reference it.
+Incorrect: The public key token is a part of the manifest of a strong-named assembly. The non-strong-named assembly doesn’t have this key information. It needs to be strongly named first.
+
+2. You are building an assembly that will be used by a couple of server applications. You want to make the update process of this assembly as smooth as possible. Which steps should you take? (Choose all that apply.)
+A. Create a WinMD Metadata file.
+Incorrect: A WinMD file is used by the WinRT in Windows 8. It shouldn’t be used outside of this context.
+*B. Deploy the assembly to the GAC.
+Correct: A shared assembly can be deployed in the GAC. Other applications can reference it there. When you want to update it, you can do so by deploying the
+new version to the GAC. By using configuration files, you can then let other applications reference your new assembly.
+C. Add an assemblyBinding section to each client application that points to the location of the assembly.
+Incorrect: You can use the assemblyBinding configuration element to add extra search locations for an assembly. This would ask for changes to each client application, however. 
+The GAC is the location where a shared assembly needs to be deployed.
+D. Strongly name the assembly.
+Incorrect: Strongly naming an assembly doesn’t make it a shared assembly. Each application would still require its own copy.
+
+3. You want to deploy an assembly to a shared location on the intranet. Which steps should you take? (Choose all that apply.)
+*A. Strongly name the assembly.
+Correct: Strongly naming the assembly is required to be able to reference it on the intranet.
+*B. Use the codebase configuration element in the applications that use the assembly.
+Correct: The codebase configuration element can be used to have local client applications know they can find an assembly on another location such as the intranet.
+C. Deploy the assembly to the GAC.
+Incorrect: Deploying it to the GAC won’t put the assembly on the intranet.
+D. Use the assemblyBinding configuration element with the probing option.
+Incorrect: The probing option can be used only to give additional locations relative to the application path. It can’t be used to point to the intranet
