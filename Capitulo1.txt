@@ -733,3 +733,54 @@ C. Deploy the assembly to the GAC.
 Incorrect: Deploying it to the GAC won’t put the assembly on the intranet.
 D. Use the assemblyBinding configuration element with the probing option.
 Incorrect: The probing option can be used only to give additional locations relative to the application path. It can’t be used to point to the intranet
+
+
+=====================================================================================================================
+=====================================================================================================================
+OBJECTIVE 3.4: THOUGHT EXPERIMENT
+
+You are working in the support department of your organization. A customer phones you to report an error in a web application that you are hosting on your own servers.
+
+1. You want to start debugging this application remotely.
+No, you don’t have to do this. Although a debug version will contain more information, you can debug the release version if you have the correct PDB file.
+
+2. Do you need to deploy a debug version to the server?
+You need to make sure that you have the correct PDB file that matches the build that’s running on your server. You need this file to launch a debugging session.
+
+4. How can a Symbol Server help you?
+A Symbol Server stores your PDB files and helps your debugger find the correct version. If you have a Symbol Server in place, you can easily start a debugging session to your server, 
+and your debugger will find the correct PDB files automatically.
+
+OBJECTIVE 3.4: REVIEW
+
+1. You are ready to deploy your code to a production server. Which configuration do you deploy?
+A. Debug configuration
+Incorrect: A debug configuration is not fully optimized and is not suitable for a production environment.
+*B. Release configuration
+Correct: A release configuration is fully optimized and will give the best results in a production environment.
+C. Custom configuration with PDB files
+Incorrect: PDB files are necessary only when debugging an application.
+D. Release configuration built with the /debug:full compiler flag
+Incorrect: The /debug:full flag adds extra information to your application for debugging purposes.
+
+2. You are debugging an application for a web shop and are inspecting a lot of Order classes. What can you do to make your debugging easier?
+*A. Use the DebuggerDisplayAttribute on the Order class.
+Correct: The DebuggerDisplayAttribute helps you in supplying a more helpful description when inspecting an item through the debugger.
+B. Override ToString on the Order class.
+Incorrect: Overriding ToString does help, but a better solution is to use the DebuggerDisplayAttribute because this won’t influence your code in production.
+C. Use the ConditionalAttribute on the Order class.
+Incorrect: The ConditionalAttribute can be used to remove code from your compiled application. Most of the time, it’s used to remove certain calls when doing a release build.
+*D. Use the #line compiler directive to make sure you can find the correct location when an exception occurs.
+Incorrect: The #line directive is used to change the line numbers of your code. Normally, this won’t be necessary.
+
+3. You are using custom code generation to insert security checks into your classes. When an exception happens, you’re having troubling finding the correct line in your source code. What should you do?
+A. Use #error to signal the error from your code so that it’s easier to find.
+Incorrect: #error will signal an error at compile time.
+B. Use #line hidden to hide unnecessary lines from the debugger.
+Incorrect: #line hidden will remove the extra generated lines from the debugger, but it won’t restore your line numbers.
+C. Use the ConditionalAttribute to remove the security checks from your debug build.
+Incorrect: This is a dangerous solution because it creates different behavior between debug and release builds. You won’t be able to test your security checks while working with a debug build.
+*D. Use the #line directive with the correct line numbers in your generated code to restore the original line numbers.
+Correct: The #line directive can be used to tell the compiler to change the line number of a line of code. This way, you can remove the line numbers for the generated code so that exceptions will match the original code.
+
+255 
