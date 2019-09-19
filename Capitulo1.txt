@@ -783,4 +783,52 @@ Incorrect: This is a dangerous solution because it creates different behavior be
 *D. Use the #line directive with the correct line numbers in your generated code to restore the original line numbers.
 Correct: The #line directive can be used to tell the compiler to change the line number of a line of code. This way, you can remove the line numbers for the generated code so that exceptions will match the original code.
 
-255 
+========================================================================================================================================================
+========================================================================================================================================================
+OBJECTIVE 3.4: THOUGHT EXPERIMENT
+
+
+You are building an online web shop that will be hosted in a distributed environment. Your web shop needs to scale well, so performance is an important concept.
+1. Which events would you write to a trace source in a web shop?
+* Critical: An irrecoverable error occurs, such as the database which is down so users can’t place any orders.
+* Error: While submitting an order, the system notices that the database can’t be reached and tries to resubmit the order.
+* Warning: The time it takes to submit an order is suddenly taking longer than expected.
+* Information: A new order is submitted successfully.
+* Verbose: Here you can trace all application events such as the beginning of the order process, how the user navigates through your web shop, and which decisions he makes.
+
+2. How can you use performance counters to keep an eye on your performance?
+You can use performance counters to keep track of how many orders are submitted and how long it takes to save them to the database. In the same way, you can see whether loading the product catalog is taking too long.
+
+OBJECTIVE 3.4: REVIEW
+
+1. You are using the TraceSource class to trace data for your application. You want to trace data when an order cannot be submitted to the database and you are going to perform a retry. Which TraceEventType should you use?
+A. Information
+Incorrect: A failing order is not something that should be seen as only an informative event. It should be treated as something critical.
+B. Verbose
+Incorrect: Verbose should be used only for very detailed tracing messages.
+C. Critical
+Incorrect: You can still recover from the error, which makes it a severity of Error, not Critical.
+*D. Error
+Correct: You should let the operators know that something is wrong and that you are trying to recover. If recovery fails, you should log a Critical event.
+
+2. Users are reporting errors in your application, and you want to configure your application to output more trace data. Which configuration setting should you change?
+A. NumberOfItems32
+Incorrect: NumberOfItems32 is an option for creating a performance counter.
+B. Listener
+Incorrect: A listener determines what is done with the tracing events. It doesn’t influence which events are traced.
+C. Filter
+Incorrect: A filter is used to filter the message that a listener processes. It doesn’t influence which events are traced.
+*D. Switch
+Correct: The switch value determines which trace events should be handled. By lowering the severity for the switch, you will see more trace events in your output.
+
+3. You are working on a global application with lots of users. The operation staff requests information on how many user logons per second are occurring. What should you do?
+A. Add a TraceSource and write each logon to a text file.
+Incorrect: Writing the events to a text file will still require a tool to parse the text file and give results to the operation staff.
+*B. Implement a performance counter using the RateOfCountsPerSecond64 type.
+Correct: This performance counter will help the operation staff to see exactly what happens every second.
+C. Instrument your application with the profiler so you can see exactly how many times the logon method is called.
+Incorrect: Profiler instrumentation will really slow down the performance of your application. It’s also something that’s not easy readable by your operations staff.
+D. Use the EventLog class to write an event to the event log for each logon.
+Incorrect: Although the event log can be read by the operation staff, they will have to manually count all events to calculate the logons per second. 
+
+277/253
