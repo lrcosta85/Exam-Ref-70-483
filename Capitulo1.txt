@@ -831,4 +831,4 @@ Incorrect: Profiler instrumentation will really slow down the performance of you
 D. Use the EventLog class to write an event to the event log for each logon.
 Incorrect: Although the event log can be read by the operation staff, they will have to manually count all events to calculate the logons per second. 
 
-284
+290
