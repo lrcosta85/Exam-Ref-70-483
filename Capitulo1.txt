@@ -831,4 +831,59 @@ Incorrect: Profiler instrumentation will really slow down the performance of you
 D. Use the EventLog class to write an event to the event log for each logon.
 Incorrect: Although the event log can be read by the operation staff, they will have to manually count all events to calculate the logons per second. 
 
-290
+========================================================================================================================================================
+========================================================================================================================================================
+OBJECTIVE 4.1: THOUGHT EXPERIMENT
+
+You need to create a custom File Explorer that uses WPF for a customer. Other members of your team work on the user interface of the File Explorer. You are tasked with creating the code that handles all the I/O. 
+The File Explorer should be an abstraction over the file system. It shouldn’t show any drives; instead, it should group files into categories that depend on the location and file type. The categories
+and locations are given to you by the customer. For example, you have a category “Administration” that contains Microsoft Office documents from multiple locations.
+
+1. Which classes do you plan to use?
+You can use DirectoryInfo and FileInfo classes for searching through folders for the specified files. You can use the Path class for making sure that the locations given to you by the customer are valid.
+
+2. How will you filter the files by specific file types?
+You can use a search pattern when looking for files. By using a search pattern such as “*.docx,” you can find all Word documents in a directory.
+
+3. Do you need asynchronous code?
+Yes. You are working with I/O in a desktop application. If you use synchronous code, the user interface appears to crash or become unresponsive each time you iterate over your folders or files. 
+By making the application asynchronous, the user interface remains responsive.
+
+
+OBJECTIVE REVIEW
+
+1. You are creating a new file to store some log data. Each time a new log entry is necessary, you write a string to the file. Which method do you use?
+A. File.CreateText
+Incorrect: File.CreateText would create a new file each time. You only want to append some text.
+B. FileInfo.Create
+Incorrect: FileInfo.Create would return a FileStream to a newly created file. You would need to encode your data to a byte array to write it to the stream.
+C. File.Create
+Incorrect: File.Create is the static equivalent of FileInfo.Create. It returns a FileStream that would require encoding to write your log entries.
+*D. File.AppendText
+Correct: File.AppendText adds some text to the end of a file
+
+2. You have built a complex calculation algorithm. It takes quite some time to complete and you want to make sure that your application remains responsive. What do you do?
+A. Use async/await.
+Incorrect: async/await is not usable when working with a CPU-bound algorithm.
+B. Run the code synchronously.
+Incorrect: Running the code synchronously would make the user interface unresponsive.
+*C. Use Task.Run.
+Correct: Task.Run will run the CPU-bound code on a separate thread. This will free the user interface thread to make sure that the application remains responsive.
+D. Use a BackgroundWorker.
+Incorrect: BackgroundWorker is retired. The new Task Parallel Library replaces it
+
+3. You are writing an application that will be deployed to Western countries. It outputs user activity to a text file. Which encoding should you use?
+*A. UTF-8
+Correct: UTF-8 is a general-purpose encoding format that works on many operating systems.
+B. UTF-7
+Incorrect: UTF-7 is used as a protocol for newsgroup and e-mail. It’s not as secure (see http://en.wikipedia.org/wiki/UTF-7#Security) as the other encodings, requires
+more space, and it’s slower in encoding/decoding. UTF-8 should be used whenever possible.
+C. ASCII
+Incorrect: Because ASCII supports only a limited range of characters, it is inadequate in most cases for international applications.
+D. UTF-32
+Incorrect: UTF-32 requires a lot of space for storing characters (4 bytes for each character). It is used when applications want to encode Unicode supplementary characters 
+(for example, Chinese characters) as one single glyph. You need this only when the encoded space of such characters is important to you. If you don’t need the Unicode supplementary characters, 
+you can use UTF-8. If you do need them. UTF-16 can be used except when you have strict space requirements.
+ 
+
+301
