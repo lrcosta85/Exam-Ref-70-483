@@ -886,4 +886,59 @@ Incorrect: UTF-32 requires a lot of space for storing characters (4 bytes for ea
 you can use UTF-8. If you do need them. UTF-16 can be used except when you have strict space requirements.
  
 
-301
+
+========================================================================================================================================================
+========================================================================================================================================================
+OBJECTIVE 4.1: THOUGHT EXPERIMENT
+
+You are designing a new application that stores data about weather conditions throughout the world. Your business model relies on selling this data to customers so they can use it in their own applications. 
+You use a relational database to store your data, and you access your data through web services that can be accessed by authorized users. You also create regular XML dumps for users that want a local
+copy of the data.
+
+1. What are the advantages and disadvantages of using the Entity Framework?
+Using the Entity Framework can improve your development speed. You won’t have to think about converting data from your database to objects. It will also manage change tracking for you and convert your LINQ queries to SQL. 
+However, this comes at a(sometimes a significant) performance cost. If you don’t really need an object model to expose your data to your clients, you could use plain SQL queries to achieve more performance.
+
+2. Which techniques do you plan to use for your web services?
+For your web services, you can use WCF.to write regular classes and use some attributes on them to expose them as services. By separating the configuration, you can then expose multiple endpoints for different user types. 
+You can, for example, use a JSON endpoint or an XML endpoint.
+
+3. How will you expose your data as XML?
+You can use the XmlWriter class for this. Because you are dealing with a lot of data, XmlDocument can be too slow. When you don’t need to edit data but only output it, XmlWriter is a good choice
+
+
+OBJECTIVE REVIEW
+
+1. You want to update a specific row in the database. Which objects should you use? (Choose all that apply.)
+*A. SqlCommand
+Correct: You need a SqlCommand to execute your update query against the database.
+B. SqlDataReader
+Incorrect: A SqlDataReader is used when you select some data from your database. You don’t use it when executing an update command.
+*C. SqlConnection
+Correct: You need a SqlConnection to establish a connection to your database. The SqlCommand uses this connection to execute the update query.
+D. TransactionScope
+Incorrect: A Transaction is not necessary when executing only a single command. If an exception occurs, no other queries have to be canceled.
+
+2. You are planning to build an application that will use an object-oriented design. It will be used by multiple users at the same time. Which technology should you use?
+A. XML files
+Incorrect: Storing your data in a plain XML file doesn’t allow multiple users to read and update it at the same time.
+*B. Entity Framework
+Correct: A relational database that stores the data with the Entity Framework mapping it to your objects helps you with quickly developing your application.
+C. ADO.NET
+Incorrect: A relational database is the best option to store your data. Using plain ADO.NET code would require you to manually map your objects to the database, and vice versa.
+D. Web service
+Incorrect: The dynamic keyword can be used in scenarios in which you want weak typing. It will still throw errors at runtime if an action is not possible.
+
+3. You need to process a large number of XML files in a scheduled service to extract some data. Which class should you use?
+*A. XmlReader
+Correct: XmlReader is the fastest option when processing a lot of data. Because you only have to read it and not make any changes, this is the best choice.
+B. XmlDocument
+Incorrect: XmlDocument is not fast enough when working with a large XML file.
+C. XmlWriter
+Incorrect: The XmlWriter is used to create XML files, not to read them.
+D. FileStream
+Incorrect: Using a FileStream would treat the XML file as plain text. You lose the benefits of the hierarchical nature of your document. Furthermore, parsing it as plain text is not a trivial task.
+
+
+
+315
