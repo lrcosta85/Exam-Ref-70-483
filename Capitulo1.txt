@@ -889,7 +889,7 @@ you can use UTF-8. If you do need them. UTF-16 can be used except when you have 
 
 ========================================================================================================================================================
 ========================================================================================================================================================
-OBJECTIVE 4.1: THOUGHT EXPERIMENT
+OBJECTIVE 4.2: THOUGHT EXPERIMENT
 
 You are designing a new application that stores data about weather conditions throughout the world. Your business model relies on selling this data to customers so they can use it in their own applications. 
 You use a relational database to store your data, and you access your data through web services that can be accessed by authorized users. You also create regular XML dumps for users that want a local
@@ -939,6 +939,66 @@ Incorrect: The XmlWriter is used to create XML files, not to read them.
 D. FileStream
 Incorrect: Using a FileStream would treat the XML file as plain text. You lose the benefits of the hierarchical nature of your document. Furthermore, parsing it as plain text is not a trivial task.
 
+========================================================================================================================================================
+========================================================================================================================================================
+OBJECTIVE 4.3: THOUGHT EXPERIMENT
+
+You are starting a new project in which you can use LINQ for the first time. You have never worked with LINQ before, but you have studied it on your own time and you see its advantages.
+You see possibilities for using LINQ to Entities, LINQ to Objects, and LINQ to XML in your projects and you try to introduce them in your company.
+However, some of your coworkers are having some doubts. Will LINQ be fast enough? Is it easy to maintain? Do we need to use the method or query syntax?
+Try to help your colleagues by answering these questions for them:
+
+1. Does LINQ have any performance problems? If so, should it be avoided?
+Although it is true that LINQ is not always as fast as a manual loop or filter, you get a lot of other benefits. LINQ to Entities translates your LINQ query to SQL, which enables you to create strongly typed queries against your database. 
+LINQ to XML uses it to process an XML file with a more fluent syntax than if you do it by hand. The biggest advantage of using LINQ is that you can use a uniform, strongly typed way of querying against multiple different data sources. 
+Most of the time, development time is more important than premature optimizations. If you do encounter a performance bottleneck, you can measure your code and optimize your queries in a targeted manner.
+
+2. Is LINQ easy to maintain?
+LINQ is strongly typed and easier to read than a handwritten loop or query. LINQ offers operators such as Sum, Average, and GroupBy that can make writing complex queries much easier. 
+
+3. What are the differences between method and query syntax? Which should be used?
+Query syntax is translated into method syntax by the compiler. Not all operators are supported in query syntax. If you need a special operator that’s available only in method syntax, you are forced to use method syntax. 
+Query syntax is more readable and should be used whenever possible.
 
 
-315
+Objective review
+
+1. You have a list of dates. You want to filter the dates to the current year and then select the highest date. Which query do you use? (Choose all that apply.)
+A. DateTime result = dates.Where(d => d == DateTime.Now).OrderBy(d => d).First();
+Incorrect: Comparing DateTime.Now to the dates will give you only the dates for today, not for the whole year. Also, using OrderBy instead of OrderByDescending will give you the lowest date, not the highest.
+*B. DateTime result = dates.Where(d => d.Year == DateTime.Now.Year).OrderByDescending(d => d).FirstOrDefault();
+Correct: This will return the highest date for the current year. If your filter can’t find a value for the current year, it will return ‘1-1-0001 00:00:00’ (DateTime.MinValue).
+C. DateTime result = dates.Where(d => d.Year == DateTime.Now.Year).OrderByDescending(d => d).First();
+Incorrect: If your filter doesn’t return a value, you will get an error. You should use FirstOrDefault instead.
+D. DateTime result = dates.Where(d => d.Year == DateTime.Now.Year).OrderByDescending(d => d).Single();
+Incorrect: Using Single will throw an exception if there are multiple dates for the current year.
+
+2. You are trying to use a LINQ query, but you are getting a compile error that the Where method cannot be found. What should you do? (Choose all that apply.)
+*A. Add a using System.Linq statement.
+Correct: You need to add a using statement for LINQ to make sure that all LINQ extension methods are available.
+*B. Check that you are using a type that implements IEnumerable.
+Correct: LINQ is implemented as extension methods on IEnumerable. If your type does not implement this, you can’t use the extension methods.
+C. Change your query from query to method syntax.
+Incorrect: The compiler changes your query syntax to method syntax. Using one or the other doesn’t change anything.
+D. Change the type of your query to var.
+Incorrect: Using implicit typing lets the compiler determine the result of your query. It doesn’t help the compiler find the Where method.
+
+3. You are using the following LINQ to Entities query:
+
+var query = from p in myContext.Products
+            where p.Price < 50
+            select p;
+int numberOfItems = query.Count();
+var products = query.ToList();
+
+You are suffering performance problems. How can you improve your query? (Choose all that apply.)
+*A. Avoid hitting the database multiple times.
+Correct: Because of the deferred execution nature of LINQ, you execute the query twice—one for getting the number of items, and one for getting all the products. You can change your query to get both these numbers in one call.
+B. Don’t execute ToList() on the query.
+Incorrect: ToList() is necessary for running the query. If you never iterate the query, you won’t get any results.
+*C. Use paging.
+Correct: Paging can help limit the number of items that you retrieve.
+D. Change the query to method syntax.
+Incorrect: Method syntax is compiled to query syntax. It doesn’t make any functional difference.
+
+331
