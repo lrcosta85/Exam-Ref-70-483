@@ -961,7 +961,7 @@ Query syntax is translated into method syntax by the compiler. Not all operators
 Query syntax is more readable and should be used whenever possible.
 
 
-Objective review
+OBJECTIVE REVIEW
 
 1. You have a list of dates. You want to filter the dates to the current year and then select the highest date. Which query do you use? (Choose all that apply.)
 A. DateTime result = dates.Where(d => d == DateTime.Now).OrderBy(d => d).First();
@@ -1001,4 +1001,102 @@ Correct: Paging can help limit the number of items that you retrieve.
 D. Change the query to method syntax.
 Incorrect: Method syntax is compiled to query syntax. It doesn’t make any functional difference.
 
-331
+========================================================================================================================================================
+========================================================================================================================================================
+OBJECTIVE 4.4: THOUGHT EXPERIMENT
+
+You need to serialize some data to a file. The file can then be processed by another .NET application. Your data consists of personal records that store important information such as names, addresses, logon credentials, and contact details.
+You are wondering which serialization would be best. You think about XML binary, JSON or using a Data Contract.
+
+1. To which format should you serialize the data?
+You can use the Binary format, which is the smallest and most efficient. XML and JSON are human-readable, but they result in a larger file, and it’s slower to serialize to it.
+
+2. Which serializer should you use?
+You can use the BinaryFormatter to serialize your data to a Stream.
+
+3. Do you need to implement any specific serialization methods on your type?
+Because you have some sensitive data (the logon credentials), it’s important that you implement the ISerializable interface so you have full control over these properties. 
+Otherwise, someone could open your binary file and extract all logon credentialsfrom it.
+
+
+OBJECTIVE REVIEW
+
+1. You need to store a large amount of data, and you want to do this in the most optimal way. Which serializer should you use?
+A. XmlSerializer
+Incorrect: Although XML is human-readable, it’s not the most optimized format. It will result in larger files then using a binary format.
+*B. BinaryFormatter
+Correct: A binary format is the most efficient for storing a large amount of data.
+C. DataContractSerializer
+Incorrect: The DataContractSerializer is used by WCF to serialize data to XML.
+D. DataContractJsonSerializer
+Incorrect: The DataContractJsonSerializer serializes your objects to JSON. JSON is used for communication between a web browser and the server.
+
+2. You are serializing some sensitive data to a binary format. What should you use? (Choose all that apply.)
+A. XmlSerializer
+Incorrect: XmlSerializer outputs XML text, not binary data.
+*B. ISerializable
+Correct: ISerializable should be implemented on types that have some sensitive data.
+C. DataContractSerializer
+Incorrect: The DataContractSerializer is used by WCF to serialize data to XML.
+*D. BinaryFormatter
+Correct: The BinaryFormatter can be used to serialize data to a binary format.
+
+3. You want to serialize some data to XML, and you need to make sure that a certain property is not serialized. Which attribute should you use?
+A. XmlElement
+Incorrect: XmlElement is used to configure how a member is serialized to an XML element.
+B. XmlAttribute
+Incorrect: XmlAttribute outputs a member as an attribute on its parent instead of as a separate node.
+*C. XmlIgnore
+Correct: XmlIgnore makes sure that a member is not serialized.
+D. NonSerialized
+Incorrect: The NonSerialized attribute is used with the BinaryFormatter or SoapFormatter. 
+
+
+========================================================================================================================================================
+========================================================================================================================================================
+OBJECTIVE 4.5: THOUGHT EXPERIMENT
+
+You are trying to determine the different collections that .NET uses. You try to come up with a comparison of the different collection types by performance and use case.
+
+1. When should you use a generic or nongeneric collection?
+A generic collection should be used when you are working with a group of items that all have the same type. It gives you better performance and it enables you to access items without casting. 
+Nongeneric collections can be used when you want to mix objects of different types.
+
+2. What’s the difference between the Dictionary- and List-based collections? When should you use one or the other?
+Dictionary-based collections have a key for each value they store, so they are very fast at retrieving items. They can’t store duplicate items. A List stores items in no particular order. You can access items by index.
+
+3. What’s the difference among the Stack, Queue, and List collections?
+Stack and Queue collections can be used when you need to retrieve items in a special order (FILO or FIFO). They discard an item after it is retrieved. A List offers random access to all elements.
+
+
+OBJECTIVE REVIEW
+
+1. You want to store a group of orders and make sure that a user can easily select an order by its order number. Which collection do you use?
+A. List<Order>
+Incorrect: A List<Order> offers random access to elements. It’s not fast at selecting specific Order items by id.
+*B. Dictionary<int,Order>
+Correct: By using a Dictionary<int,Order>, you can easily select an Order by id.
+C. HashSet<Order>
+Incorrect: A HashSet doesn’t offer random access to its items. You need to enumerate the whole set to get to an order.
+*D. Queue<Order>
+Incorrect: A Queue offers a FIFO set. You can’t randomly access items, and an item is discarded after retrieving it.
+
+2. You are using a queue and you want to add a new item. Which method do you use?
+A. Push
+Incorrect: Push is used to add items to a Stack.
+B. Add
+Incorrect: Add is used on types inheriting from ICollection<T>. A Queue does not inherit from ICollection<T> but from ICollection.
+C. Dequeue
+Incorrect: Dequeue is used to remove an item from a Queue.
+*D. Enqueue
+Correct: Enqueue is used to add an item to a Queue.
+
+3. You are working with a large group of family name objects. You need to remove all duplicates and then group them by last name. Which collections should you use? (Choose all that apply.)
+*A. List<T>
+Correct: You need a list to store all duplicate family name items.
+B. Stack<T>
+Incorrect: A Stack stores items in a LIFO basis. It’s not suitable for storing the duplicated or nonduplicated items.
+*C. Dictionary<string,T>
+Correct: The Dictionary<string,T> can be used to store the nonduplicated items on family name.
+D. T[]
+Incorrect: You can’t remove items from a regular array.
